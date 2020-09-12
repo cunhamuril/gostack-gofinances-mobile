@@ -5,13 +5,16 @@ import LogoImg from '../../assets/logo.png';
 
 import { Container, Content, DateText } from './styles';
 
-const Header: React.FC = () => (
+// eslint-disable-next-line react/prop-types
+const Header: React.FC = ({ children }) => (
   <Container>
     <Content>
       <Image source={LogoImg} />
 
       <DateText>16 de abril</DateText>
     </Content>
+
+    {children}
   </Container>
 );
 export default Header;

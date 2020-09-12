@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components/native';
 
-import { IHeaderCardProps } from './interfaces';
+import { IHeaderCardsProps } from './interfaces';
 
-export const HeaderCardContainer = styled.ScrollView.attrs({
+export const Container = styled.ScrollView.attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
 })`
@@ -13,7 +13,7 @@ export const HeaderCardContainer = styled.ScrollView.attrs({
   transform: translateY(46px);
 `;
 
-export const HeaderCard = styled.View<IHeaderCardProps>`
+export const Card = styled.View<IHeaderCardsProps>`
   width: 300px;
   height: 200px;
   border-radius: 5px;
@@ -36,13 +36,13 @@ export const HeaderCard = styled.View<IHeaderCardProps>`
     `}
 `;
 
-export const HeaderCardTop = styled.View`
+export const Header = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
 `;
 
-export const HeaderCardTitle = styled.Text<IHeaderCardProps>`
+export const Title = styled.Text<IHeaderCardsProps>`
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.regular};
 
@@ -50,9 +50,7 @@ export const HeaderCardTitle = styled.Text<IHeaderCardProps>`
     isTotal ? theme.colors.white : theme.colors.title};
 `;
 
-export const HeaderCardMoneyContainer = styled.View``;
-
-export const HeaderCardMoneyValue = styled.Text<IHeaderCardProps>`
+export const Value = styled.Text<IHeaderCardsProps>`
   font-size: 30px;
   line-height: 45px;
   font-family: ${({ theme }) => theme.fonts.medium};
@@ -61,7 +59,7 @@ export const HeaderCardMoneyValue = styled.Text<IHeaderCardProps>`
     isTotal ? theme.colors.white : theme.colors.title};
 `;
 
-export const HeaderCardMoneyHistory = styled.Text<IHeaderCardProps>`
+export const Date = styled.Text<IHeaderCardsProps>`
   font-size: 12px;
   line-height: 18px;
   font-family: ${({ theme }) => theme.fonts.regular};
