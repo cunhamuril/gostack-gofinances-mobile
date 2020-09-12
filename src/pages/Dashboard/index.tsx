@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => (
     <Header />
 
     <View>
-      <Text>Hello World</Text>
+      <Text>Dashboard</Text>
     </View>
   </>
 );
