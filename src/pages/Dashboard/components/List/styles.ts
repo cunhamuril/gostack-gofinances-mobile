@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
 
-import { IValueListProps } from './interface';
+import { IValueListProps } from './interfaces';
 
-export const ListContainer = styled.View`
+export const Container = styled.View`
   margin: 87px 0 24px;
 `;
 
-export const ListTitle = styled.Text`
+export const Title = styled.Text`
   margin: 0 24px 24px;
 
   color: #000;
