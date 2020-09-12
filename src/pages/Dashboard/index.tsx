@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-// import { Container } from './styles';
+import { Header } from '../../components';
 
 const Dashboard: React.FC = () => (
-  <View>
-    <Text>Hello World</Text>
-  </View>
+  <>
+    <Header />
+
+    <View>
+      <Text>Hello World</Text>
+    </View>
+  </>
 );
 
 export default Dashboard;
