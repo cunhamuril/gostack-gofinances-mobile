@@ -4,7 +4,7 @@ import { Form as UnformForm } from '@unform/mobile';
 
 import { ISelectProps } from './interfaces';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   padding: 24px;
 `;
 

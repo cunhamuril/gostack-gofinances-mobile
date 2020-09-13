@@ -7,9 +7,11 @@ import incomeIcon from '../../assets/icons/income/income.png';
 import outcomeIcon from '../../assets/icons/outcome/outcome.png';
 
 import schema from './schema';
+import { api } from '../../services';
 import { IFormData } from './interfaces';
 import { getValidationErrors } from '../../utils';
 import { Header, Input, Button } from '../../components';
+import { useTransaction } from '../../hooks/Transactions';
 
 import {
   Container,
@@ -22,6 +24,7 @@ import {
 } from './styles';
 
 const Register: React.FC = () => {
+  const { fetchTransactionData } = useTransaction();
   const formRef = useRef<FormHandles>(null);
 
   const [typeSelected, setTypeSelected] = useState<'income' | 'outcome' | null>(
@@ -37,12 +40,14 @@ const Register: React.FC = () => {
   }, []);
 
   const handleSubmit = useCallback(
-    async (data: IFormData) => {
+    async (data: IFormData): Promise<void> => {
       try {
         formRef.current?.setErrors({});
 
         if (!typeSelected) {
-          return Alert.alert('Erro!', 'Informe o tipo de transação');
+          Alert.alert('Erro!', 'Informe o tipo de transação');
+
+          return;
         }
 
         await schema.validate(data, {
@@ -54,13 +59,15 @@ const Register: React.FC = () => {
           type: typeSelected,
         };
 
-        console.log(payload);
+        await api.post('transactions', payload);
 
-        ToastAndroid.showWithGravityAndOffset(
+        ToastAndroid.showWithGravity(
           'Transação cadastrada com sucesso!',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
+
+        fetchTransactionData();
 
         formRef.current?.reset(data);
       } catch (err) {
@@ -82,7 +89,7 @@ const Register: React.FC = () => {
         <Title>Cadastro</Title>
 
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="name" placeholder="Nome" returnKeyType="next" />
+          <Input name="title" placeholder="Nome" returnKeyType="next" />
 
           <Input
             name="value"

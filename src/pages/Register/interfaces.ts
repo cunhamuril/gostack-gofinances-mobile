@@ -5,7 +5,7 @@ export interface ISelectProps {
 }
 
 export interface IFormData {
-  name: string;
+  title: string;
   value: string;
   category: string;
 }

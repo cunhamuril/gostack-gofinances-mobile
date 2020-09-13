@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from 'react';
-
-import { api } from '../../services';
-import { ITransactionsData } from './interfaces';
+import React from 'react';
 
 import { Header } from '../../components';
+import { useTransaction } from '../../hooks/Transactions';
 
 import { HeaderCards, List } from './components';
 
 const Dashboard: React.FC = () => {
-  const [
-    transactionsData,
-    setTransactionsData,
-  ] = useState<ITransactionsData | null>(null);
-
-  useEffect(() => {
-    api
-      .get('transactions')
-      .then(response => {
-        setTransactionsData(response.data);
-      })
-      .catch(err => console.log(err.response.message));
-  }, []);
+  const { transactionsData } = useTransaction();
 
   return (
     <>

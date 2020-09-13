@@ -6,6 +6,8 @@ import { ThemeProvider } from 'styled-components';
 import theme from './theme';
 import colors from './theme/colors';
 
+import AppProvider from './hooks';
+
 import Routes from './routes';
 
 const App: React.FC = () => (
@@ -15,7 +17,9 @@ const App: React.FC = () => (
       barStyle="light-content"
     />
 
-    <Routes />
+    <AppProvider>
+      <Routes />
+    </AppProvider>
   </ThemeProvider>
 );
 
