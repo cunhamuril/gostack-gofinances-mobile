@@ -40,7 +40,23 @@ const HeaderCards: React.FC<IHeaderCardsProps> = ({
     const firstDateMonth = formatDate(firstDate, 'MM');
     const lastDateMonth = formatDate(lastDate, 'MM');
 
+    let income = 'Nenhuma entrada registrada';
+    let outcome = 'Nenhuma saída registrada';
     let total;
+
+    if (lastIncomeDate) {
+      income = `Última entrada dia ${formatDate(
+        lastIncomeDate,
+        "dd 'de' MMMM",
+      )}`;
+    }
+
+    if (lastOutcomeDate) {
+      outcome = `Última saída dia ${formatDate(
+        lastOutcomeDate,
+        "dd 'de' MMMM",
+      )}`;
+    }
 
     if (firstDateMonth === lastDateMonth) {
       total = `${formatDate(firstDate, 'dd')} à ${formatDate(
@@ -55,8 +71,8 @@ const HeaderCards: React.FC<IHeaderCardsProps> = ({
     }
 
     setDatesHistory({
-      income: formatDate(lastIncomeDate, "dd 'de' MMMM"),
-      outcome: formatDate(lastOutcomeDate, "dd 'de' MMMM"),
+      income,
+      outcome,
       total,
     });
   }, [data.transactions]);
@@ -72,15 +88,13 @@ const HeaderCards: React.FC<IHeaderCardsProps> = ({
           <NumberFormat
             value={data.balance?.income}
             displayType="text"
-            thousandSeparator
             decimalScale={2}
+            decimalSeparator=","
             fixedDecimalScale
             prefix="R$ "
-            renderText={value => (
-              <Value>{value.replace('.', ',').replace(',', '.')}</Value>
-            )}
+            renderText={value => <Value>{value}</Value>}
           />
-          <Date>{`Última entrada dia ${datesHistory.income}`}</Date>
+          <Date>{datesHistory.income}</Date>
         </View>
       </Card>
 
@@ -93,15 +107,13 @@ const HeaderCards: React.FC<IHeaderCardsProps> = ({
           <NumberFormat
             value={data.balance?.outcome}
             displayType="text"
-            thousandSeparator
             prefix="R$ "
             decimalScale={2}
+            decimalSeparator=","
             fixedDecimalScale
-            renderText={value => (
-              <Value>{value.replace('.', ',').replace(',', '.')}</Value>
-            )}
+            renderText={value => <Value>{value}</Value>}
           />
-          <Date>{`Última saída dia ${datesHistory.outcome}`}</Date>
+          <Date>{datesHistory.outcome}</Date>
         </View>
       </Card>
 
@@ -114,13 +126,11 @@ const HeaderCards: React.FC<IHeaderCardsProps> = ({
           <NumberFormat
             value={data.balance?.total}
             displayType="text"
-            thousandSeparator
             decimalScale={2}
+            decimalSeparator=","
             fixedDecimalScale
             prefix="R$ "
-            renderText={value => (
-              <Value isTotal>{value.replace('.', ',').replace(',', '.')}</Value>
-            )}
+            renderText={value => <Value isTotal>{value}</Value>}
           />
           <Date isTotal>{datesHistory.total}</Date>
         </View>

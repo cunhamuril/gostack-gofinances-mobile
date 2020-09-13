@@ -24,7 +24,9 @@ const TransactionProvider: React.FC = ({ children }) => {
     try {
       const { data } = await api.get('transactions');
 
-      setTransactionsData(data);
+      if (data.transactions.length > 0) {
+        setTransactionsData(data);
+      }
     } catch (err) {
       console.log(err.response);
     }

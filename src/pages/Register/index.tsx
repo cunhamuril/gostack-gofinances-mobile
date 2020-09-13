@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { Alert, ToastAndroid } from 'react-native';
+import { Alert, ToastAndroid, TextInput } from 'react-native';
 import { FormHandles } from '@unform/core';
 import { ValidationError } from 'yup';
 
@@ -26,6 +26,8 @@ import {
 const Register: React.FC = () => {
   const { fetchTransactionData } = useTransaction();
   const formRef = useRef<FormHandles>(null);
+  const valueInputRef = useRef<TextInput>(null);
+  const categoryInputRef = useRef<TextInput>(null);
 
   const [typeSelected, setTypeSelected] = useState<'income' | 'outcome' | null>(
     null,
@@ -68,8 +70,8 @@ const Register: React.FC = () => {
         );
 
         fetchTransactionData();
-
         formRef.current?.reset(data);
+        setTypeSelected(null);
       } catch (err) {
         if (err instanceof ValidationError) {
           const errors = getValidationErrors(err);
@@ -89,13 +91,19 @@ const Register: React.FC = () => {
         <Title>Cadastro</Title>
 
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="title" placeholder="Nome" returnKeyType="next" />
+          <Input
+            name="title"
+            placeholder="Nome"
+            returnKeyType="next"
+            onSubmitEditing={() => valueInputRef.current?.focus()}
+          />
 
           <Input
             name="value"
             placeholder="Preço"
             keyboardType="numeric"
             returnKeyType="next"
+            onSubmitEditing={() => categoryInputRef.current?.focus()}
           />
 
           <SelectWrapper>
