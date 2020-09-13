@@ -3,7 +3,11 @@ import { Image } from 'react-native';
 
 import LogoImg from '../../assets/logo.png';
 
+import { formatDate } from '../../utils';
+
 import { Container, Content, DateText } from './styles';
+
+const today = new Date();
 
 // eslint-disable-next-line react/prop-types
 const Header: React.FC = ({ children }) => (
@@ -11,7 +15,7 @@ const Header: React.FC = ({ children }) => (
     <Content>
       <Image source={LogoImg} />
 
-      <DateText>16 de abril</DateText>
+      <DateText>{formatDate(today, "dd 'de' MMMM")}</DateText>
     </Content>
 
     {children}

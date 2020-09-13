@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { IValueListProps } from './interfaces';
 
 export const Container = styled.View`
-  margin: 87px 0 24px;
+  margin: 87px 0 280px;
 `;
 
 export const Title = styled.Text`

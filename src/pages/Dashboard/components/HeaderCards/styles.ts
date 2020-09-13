@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components/native';
 
-import { IHeaderCardsProps } from './interfaces';
+import { IStyleProps } from './interfaces';
 
 export const Container = styled.ScrollView.attrs({
   horizontal: true,
@@ -13,7 +13,7 @@ export const Container = styled.ScrollView.attrs({
   transform: translateY(46px);
 `;
 
-export const Card = styled.View<IHeaderCardsProps>`
+export const Card = styled.View<IStyleProps>`
   width: 300px;
   height: 200px;
   border-radius: 5px;
@@ -42,7 +42,7 @@ export const Header = styled.View`
   justify-content: space-between;
 `;
 
-export const Title = styled.Text<IHeaderCardsProps>`
+export const Title = styled.Text<IStyleProps>`
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.regular};
 
@@ -50,7 +50,7 @@ export const Title = styled.Text<IHeaderCardsProps>`
     isTotal ? theme.colors.white : theme.colors.title};
 `;
 
-export const Value = styled.Text<IHeaderCardsProps>`
+export const Value = styled.Text<IStyleProps>`
   font-size: 30px;
   line-height: 45px;
   font-family: ${({ theme }) => theme.fonts.medium};
@@ -59,7 +59,7 @@ export const Value = styled.Text<IHeaderCardsProps>`
     isTotal ? theme.colors.white : theme.colors.title};
 `;
 
-export const Date = styled.Text<IHeaderCardsProps>`
+export const Date = styled.Text<IStyleProps>`
   font-size: 12px;
   line-height: 18px;
   font-family: ${({ theme }) => theme.fonts.regular};

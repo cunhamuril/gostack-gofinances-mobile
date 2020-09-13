@@ -1,9 +1,10 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import NumberFormat from 'react-number-format';
 
-import { formatDate, formatValue } from '../../../../utils';
+import { formatDate } from '../../../../utils';
 
-import { IListProps, ITransactions } from './interfaces';
+import { IListProps, IListItemProps } from './interfaces';
 
 import {
   Container,
@@ -15,21 +16,48 @@ import {
   FooterText,
 } from './styles';
 
-const ListItem = ({ item }: ITransactions) => (
+const ListItem: React.FC<IListItemProps> = ({ item }: IListItemProps) => (
   <ListItemContainer>
     <Description>{item.title}</Description>
-    <Value type={item.type}>
-      {item.type === 'income' ? `R$ ${item.value}` : `- R$${item.value}`}
-    </Value>
+
+    {item.type === 'income' ? (
+      <NumberFormat
+        value={item.value}
+        displayType="text"
+        thousandSeparator
+        decimalScale={2}
+        fixedDecimalScale
+        prefix="R$ "
+        renderText={value => (
+          <Value type={item.type}>
+            {value.replace('.', ',').replace(',', '.')}
+          </Value>
+        )}
+      />
+    ) : (
+      <NumberFormat
+        value={item.value}
+        displayType="text"
+        thousandSeparator
+        decimalScale={2}
+        fixedDecimalScale
+        prefix="- R$ "
+        renderText={value => (
+          <Value type={item.type}>
+            {value.replace(',', '.').replace('.', ',')}
+          </Value>
+        )}
+      />
+    )}
 
     <Footer>
       <FooterText>{item.category.title}</FooterText>
-      <FooterText>13/04/2020</FooterText>
+      <FooterText>{formatDate(item.created_at)}</FooterText>
     </Footer>
   </ListItemContainer>
 );
 
-const List: React.FC<IListProps> = ({ data }) => (
+const List: React.FC<IListProps> = ({ data }: IListProps) => (
   <Container>
     <Title>Listagem</Title>
 
