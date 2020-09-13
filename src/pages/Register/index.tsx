@@ -1,8 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import { Alert, ToastAndroid } from 'react-native';
+import { FormHandles } from '@unform/core';
+import { ValidationError } from 'yup';
 
 import incomeIcon from '../../assets/icons/income/income.png';
 import outcomeIcon from '../../assets/icons/outcome/outcome.png';
 
+import schema from './schema';
+import { IFormData } from './interfaces';
+import { getValidationErrors } from '../../utils';
 import { Header, Input, Button } from '../../components';
 
 import {
@@ -16,25 +22,57 @@ import {
 } from './styles';
 
 const Register: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+
   const [typeSelected, setTypeSelected] = useState<'income' | 'outcome' | null>(
     null,
   );
 
   const toggleSelectIncome = useCallback(() => {
-    if (typeSelected === 'income') {
-      setTypeSelected(null);
-    } else {
-      setTypeSelected('income');
-    }
-  }, [typeSelected]);
+    setTypeSelected('income');
+  }, []);
 
   const toggleSelectOutcome = useCallback(() => {
-    if (typeSelected === 'outcome') {
-      setTypeSelected(null);
-    } else {
-      setTypeSelected('outcome');
-    }
-  }, [typeSelected]);
+    setTypeSelected('outcome');
+  }, []);
+
+  const handleSubmit = useCallback(
+    async (data: IFormData) => {
+      try {
+        formRef.current?.setErrors({});
+
+        if (!typeSelected) {
+          return Alert.alert('Erro!', 'Informe o tipo de transação');
+        }
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        const payload = {
+          ...data,
+          type: typeSelected,
+        };
+
+        console.log(payload);
+
+        ToastAndroid.showWithGravityAndOffset(
+          'Transação cadastrada com sucesso!',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+
+        formRef.current?.reset(data);
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+        }
+      }
+    },
+    [typeSelected],
+  );
 
   return (
     <>
@@ -43,10 +81,15 @@ const Register: React.FC = () => {
       <Container>
         <Title>Cadastro</Title>
 
-        <Form>
-          <Input placeholder="Nome" />
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <Input name="name" placeholder="Nome" returnKeyType="next" />
 
-          <Input placeholder="Preço" />
+          <Input
+            name="value"
+            placeholder="Preço"
+            keyboardType="numeric"
+            returnKeyType="next"
+          />
 
           <SelectWrapper>
             <Select
@@ -55,21 +98,32 @@ const Register: React.FC = () => {
               onPress={toggleSelectIncome}
             >
               <SelectIcon source={incomeIcon} />
-              <SelectText>Income</SelectText>
+              <SelectText>Entrada</SelectText>
             </Select>
+
             <Select
               outcome
               selected={typeSelected === 'outcome'}
               onPress={toggleSelectOutcome}
             >
               <SelectIcon source={outcomeIcon} />
-              <SelectText>Outcome</SelectText>
+              <SelectText>Saída</SelectText>
             </Select>
           </SelectWrapper>
 
-          <Input placeholder="Categoria" />
+          <Input
+            name="category"
+            placeholder="Categoria"
+            returnKeyType="send"
+            onSubmitEditing={() => formRef.current?.submitForm()}
+          />
 
-          <Button style={{ marginTop: 16 }}>Enviar</Button>
+          <Button
+            style={{ marginTop: 16 }}
+            onPress={() => formRef.current?.submitForm()}
+          >
+            Enviar
+          </Button>
         </Form>
       </Container>
     </>

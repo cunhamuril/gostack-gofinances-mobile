@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components/native';
 import { transparentize } from 'polished';
+import { Form as UnformForm } from '@unform/mobile';
 
 import { ISelectProps } from './interfaces';
 
@@ -13,7 +14,7 @@ export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
-export const Form = styled.View`
+export const Form = styled(UnformForm)`
   margin-top: 8px;
 `;
 
@@ -39,12 +40,14 @@ export const Select = styled.TouchableOpacity.attrs({
 
   border-width: 1.5px;
   border-style: solid;
-  border-color: ${({ theme }) => transparentize(0.7, theme.colors.text)};
 
   ${({ theme, income, outcome, selected }) => {
     if (income) {
       return css`
         margin-right: 4px;
+        border-color: ${selected
+          ? transparentize(0.9, theme.colors.green)
+          : transparentize(0.7, theme.colors.text)};
         background-color: ${selected
           ? transparentize(0.9, theme.colors.green)
           : 'transparent'};
@@ -54,18 +57,15 @@ export const Select = styled.TouchableOpacity.attrs({
     if (outcome) {
       return css`
         margin-left: 4px;
+        border-color: ${selected
+          ? transparentize(0.9, theme.colors.red)
+          : transparentize(0.7, theme.colors.text)};
         background-color: ${selected
           ? transparentize(0.9, theme.colors.red)
           : 'transparent'};
       `;
     }
   }}
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      border-color: transparent;
-    `}
 `;
 
 export const SelectIcon = styled.Image`
